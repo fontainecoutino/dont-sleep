@@ -22,6 +22,7 @@ func awakeUpdate(msg tea.Msg, m Model) (tea.Model, tea.Cmd) {
 			m.SetWindow(ErrorWindow)
 			return m, tea.Quit
 		}
+		m.Exiting = true
 		m.SetWindow(QuitWindow)
 		return m, tea.Quit
 	case tickMsg:
@@ -49,17 +50,17 @@ var (
 )
 
 func awakeView(m Model) string {
-	steam1 := awakeSteamStyle.Render("        (") + "\n"
-	steam1 += awakeSteamStyle.Render("         )   )") + "\n"
-	steam1 += awakeSteamStyle.Render("        (   (") + "\n"
-	steam1 += awakeLiquidStyle.Render("      _______") +
+	steam1 := awakeSteamStyle.Render("      (      ") + "\n"
+	steam1 += awakeSteamStyle.Render("       )   ) ") + "\n"
+	steam1 += awakeSteamStyle.Render("      (   (  ") + "\n"
+	steam1 += awakeLiquidStyle.Render("    _______") +
 		awakeSteamStyle.Render(")") +
 		awakeLiquidStyle.Render("_")
 
-	steam2 := awakeSteamStyle.Render("        )") + "\n"
-	steam2 += awakeSteamStyle.Render("       (     (") + "\n"
-	steam2 += awakeSteamStyle.Render("        )     )") + "\n"
-	steam2 += awakeLiquidStyle.Render("      _______") +
+	steam2 := awakeSteamStyle.Render("      )      ") + "\n"
+	steam2 += awakeSteamStyle.Render("     (     ( ") + "\n"
+	steam2 += awakeSteamStyle.Render("      )     )") + "\n"
+	steam2 += awakeLiquidStyle.Render("    _______") +
 		awakeSteamStyle.Render("(") +
 		awakeLiquidStyle.Render("_")
 
@@ -75,13 +76,13 @@ func awakeView(m Model) string {
 		steam = steam2
 	}
 
-	coffee := awakeCupStyle.Render("   .-'---------|") + "\n"
-	coffee += awakeCupStyle.Render("  ( C|") +
+	coffee := awakeCupStyle.Render(" .-'---------|") + "\n"
+	coffee += awakeCupStyle.Render("( C|") +
 		awakeCupDetailStyle.Render(". . . . .") +
 		awakeCupStyle.MarginLeft(0).Render("|") + "\n"
-	coffee += awakeCupStyle.Render("   '-.         |") + "\n"
-	coffee += awakeCupStyle.Render("     '_________'") + "\n"
-	coffee += awakeCupStyle.Render("      '-------'") + "\n"
+	coffee += awakeCupStyle.Render(" '-.         |") + "\n"
+	coffee += awakeCupStyle.Render("   '_________'") + "\n"
+	coffee += awakeCupStyle.Render("    '-------' ") + "\n"
 
 	tpl := steam + "\n"
 	tpl += coffee + "\n"

@@ -19,6 +19,6 @@ func errorView(m Model) string {
 
 func quitView(m Model) string {
 	tmp := exitMainTitleStyle.Render("\nI am finally allowed to sleep!") + "\n"
-	tmp += exitSecondTitleStyle.Render(fmt.Sprintf(" (awake for %d sec)\n\n", m.TimeAwake))
+	tmp += exitSecondTitleStyle.Render(fmt.Sprintf("(awake for %d sec)\n\n", m.TimeAwake))
 	return tmp
 }

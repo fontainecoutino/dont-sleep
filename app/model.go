@@ -6,6 +6,7 @@ import (
 	"github.com/charmbracelet/bubbles/list"
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
 )
 
 type Model struct {
@@ -14,6 +15,7 @@ type Model struct {
 
 	// model state
 	Awake     bool
+	Exiting   bool
 	TimeAwake int32
 	Ctx       context.Context
 	CancelCmd context.CancelFunc
@@ -45,6 +47,7 @@ func (m Model) Init() tea.Cmd {
 
 func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	if exitKey(msg) {
+		m.Exiting = true
 		m.SetWindow(QuitWindow)
 		if m.Awake {
 			m.CancelCmd()
@@ -63,6 +66,13 @@ func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 }
 
 func (m Model) View() string {
+	if m.Exiting || m.Awake {
+		mainStyle.Align(lipgloss.Center).AlignVertical(lipgloss.Center)
+	}
+	return mainStyle.Render(view(m))
+}
+
+func view(m Model) string {
 	switch m.GetWindow() {
 	case HomeWindow:
 		return homeView(m)
@@ -78,6 +88,10 @@ func (m Model) View() string {
 }
 
 // ── style ───────────────────────────────────────────────────────────
+
+var (
+	mainStyle = lipgloss.NewStyle().MaxHeight(15).PaddingLeft(2).TabWidth(2)
+)
 
 // ── window ──────────────────────────────────────────────────────────
 

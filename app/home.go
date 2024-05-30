@@ -81,7 +81,7 @@ func choosenUpdate(msg tea.Msg, m Model, inputToVal func(string) (int, error)) (
 // ── view ────────────────────────────────────────────────────────────
 
 var (
-	homeTitleStyle = lipgloss.NewStyle().PaddingLeft(2).Bold(true).Italic(true).Underline(true)
+	homeTitleStyle = lipgloss.NewStyle().Bold(true).Italic(true).Underline(true)
 	homeHelpStyle  = list.DefaultStyles().HelpStyle.PaddingLeft(4).PaddingBottom(1)
 )
 
@@ -96,11 +96,10 @@ func homeView(m Model) string {
 // ── sub-views ───────────────────────────────────────────────────────
 
 var (
-	homeListTitleStyle    = lipgloss.NewStyle().MarginLeft(0)
-	homeItemStyle         = lipgloss.NewStyle().PaddingLeft(4)
-	homeSelectedItemStyle = lipgloss.NewStyle().PaddingLeft(2).Foreground(lipgloss.Color("9"))
-	homeChosenStyle       = lipgloss.NewStyle().MarginLeft(2).Bold(true)
-	homeTxtInputStyle     = lipgloss.NewStyle().MarginLeft(4)
+	homeListTitleStyle    = lipgloss.NewStyle()
+	homeItemStyle         = lipgloss.NewStyle().PaddingLeft(2)
+	homeSelectedItemStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("9"))
+	homeTxtInputStyle     = lipgloss.NewStyle().MarginLeft(1)
 )
 
 type item string
@@ -180,11 +179,10 @@ func choiceView(m Model) string {
 		m.TxtInput.Placeholder = "000000"
 	}
 
-	tpl := homeChosenStyle.Render("* "+mode) + "\n"
-	tpl += homeTxtInputStyle.Render(m.TxtInput.View()) + "\n"
+	tpl := homeTxtInputStyle.Render(fmt.Sprintf("%s %s", mode, m.TxtInput.View())) + "\n"
 
 	if m.TxtInputHelp != "" {
-		tpl += homeTxtInputStyle.Render("? "+m.TxtInputHelp) + "\n"
+		tpl += "\n" + homeTxtInputStyle.Render("? "+m.TxtInputHelp) + "\n"
 	}
 
 	return tpl + "\n"
