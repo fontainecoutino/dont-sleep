@@ -67,7 +67,7 @@ func choosenUpdate(msg tea.Msg, m Model, inputToVal func(string) (int, error)) (
 			}
 
 			m.SetWindow(AwakeWindow)
-			return m, tea.Batch(startCaffeinate(m, input), m.spinner.Tick)
+			return m, startCaffeinate(m, input)
 		}
 		m.TxtInputHelp = ""
 	}
@@ -193,21 +193,19 @@ func choiceView(m Model) string {
 // ── cmd ─────────────────────────────────────────────────────────────
 
 type startCaffeinateMsg struct {
-	processChoice struct {
-		process int
-	}
-	timeChoice struct {
-		seconds int
-	}
+	process   int
+	isProcess bool
+	seconds   int
+	isTime    bool
 }
 
 func startCaffeinate(m Model, input int) tea.Cmd {
 	return func() tea.Msg {
 		var msg startCaffeinateMsg
 		if m.Choice == ProcessChoice {
-			msg.processChoice = struct{ process int }{process: input}
+			msg.isProcess, msg.process = true, input
 		} else if m.Choice == TimeChoice {
-			msg.timeChoice = struct{ seconds int }{seconds: input}
+			msg.isTime, msg.seconds = true, input
 		}
 		return msg
 	}

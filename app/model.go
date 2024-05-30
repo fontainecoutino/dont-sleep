@@ -1,19 +1,22 @@
 package app
 
 import (
+	"context"
+
 	"github.com/charmbracelet/bubbles/list"
-	"github.com/charmbracelet/bubbles/spinner"
 	"github.com/charmbracelet/bubbles/textinput"
 	tea "github.com/charmbracelet/bubbletea"
 )
 
 type Model struct {
 	//  view
-	window  Window
-	spinner spinner.Model
+	window Window
 
 	// model state
-	Awake bool
+	Awake     bool
+	TimeAwake int32
+	Ctx       context.Context
+	CancelCmd context.CancelFunc
 
 	// choice state
 	List         list.Model
@@ -27,8 +30,8 @@ type Model struct {
 func NewModel() Model {
 	m := Model{
 		window:   HomeWindow,
-		spinner:  spinner.New(),
 		Awake:    false,
+		Ctx:      context.Background(),
 		List:     getHomeViewList(),
 		Choice:   "",
 		TxtInput: getChoiceInput(),
@@ -43,6 +46,7 @@ func (m Model) Init() tea.Cmd {
 func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	if exitKey(msg) {
 		m.SetWindow(QuitWindow)
+		m.CancelCmd()
 		return m, tea.Quit
 	}
 
