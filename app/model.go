@@ -46,7 +46,9 @@ func (m Model) Init() tea.Cmd {
 func (m Model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	if exitKey(msg) {
 		m.SetWindow(QuitWindow)
-		m.CancelCmd()
+		if m.Awake {
+			m.CancelCmd()
+		}
 		return m, tea.Quit
 	}
 
