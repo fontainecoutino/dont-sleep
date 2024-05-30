@@ -12,6 +12,8 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
+var PID int
+
 // ── update ──────────────────────────────────────────────────────────
 
 func awakeUpdate(msg tea.Msg, m Model) (tea.Model, tea.Cmd) {
@@ -106,24 +108,29 @@ func caffeinate(ctx context.Context, msg startCaffeinateMsg) tea.Cmd {
 			opt = "-t 1"
 		}
 
+		var endMsg caffeinateFinishedMsg
+
 		awakeCmd := exec.CommandContext(ctx, "caffeinate", "-d", opt)
 		awakeCmd.Stdout = nil
 
 		err := awakeCmd.Start()
+		PID = awakeCmd.Process.Pid
 		if err != nil {
-			return caffeinateFinishedMsg{err: errors.New("error while starting caffeinate")}
+			endMsg.err = errors.New("error while starting caffeinate")
+			return endMsg
 		}
 		awakeCmd.Cancel = awakeCmd.Process.Kill
 
 		err = awakeCmd.Wait()
 		if err != nil {
+			endMsg.err = errors.New("error while executing caffeinate")
 			_, ok := err.(*exec.ExitError)
 			if !ok {
-				return caffeinateFinishedMsg{err: errors.New("caffeinate error")}
+				endMsg.err = errors.New("caffeinate error")
 			}
-			return caffeinateFinishedMsg{err: errors.New("error while executing caffeinate")}
+			return endMsg
 		}
-		return caffeinateFinishedMsg{}
+		return endMsg
 	}
 }
 

@@ -79,7 +79,7 @@ func view(m Model) string {
 	case AwakeWindow:
 		return awakeView(m)
 	case ErrorWindow:
-		return errorView(m)
+		return errorView()
 	case QuitWindow:
 		return quitView(m)
 	default:
