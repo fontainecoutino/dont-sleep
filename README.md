@@ -2,8 +2,6 @@
 
 TUI app to prevent system from sleeping
 
-TUI app to prevent system from sleeping.
-
 ![demo-gif](https://github.com/fontainecoutino/dont-sleep/blob/pre-release/docs/demo/demo.gif)
 
 ## Background
