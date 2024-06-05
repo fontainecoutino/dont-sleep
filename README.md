@@ -21,8 +21,9 @@ A machine running MacOS (x-86) is required which includes [Caffeinate](https://s
 Clone and build
 
 ```
-git clone https://github.com/fontainecoutino/dont-sleep.git 
-go build -o dont-sleep dont-sleep/main.go
+git clone https://github.com/fontainecoutino/dont-sleep.git
+cd dont-sleep
+go build -o dont-sleep main.go
 ```
 
 ## Additional
