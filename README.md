@@ -26,6 +26,12 @@ cd dont-sleep
 go build -o dont-sleep main.go
 ```
 
+If you'd like to add to the global binaries. Needs `sudo` priviliges.
+
+```
+sudo cp ./dont-sleep /usr/local/bin/
+```
+
 ## Additional
 
 * I hope to include other systems as well; however, I work exclusively on a Mac.
